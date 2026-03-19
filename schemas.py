@@ -1,12 +1,20 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
-class Project(BaseModel):
-    id: int
-    title: str        
+
+
+class ProjectCreate(BaseModel):
+    title: str
     description: str
-    contributors_count: int 
+    code_name: str
+    code_content: str
     image_url: Optional[str] = None
+
+
+
+class Project(ProjectCreate):
+    id: int
+    contributors_count: int
 
     class Config:
         from_attributes = True
