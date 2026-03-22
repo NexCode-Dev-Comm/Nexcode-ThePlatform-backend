@@ -4,6 +4,19 @@ from database import Base
 
 
 
+class MemberModel(Base):
+    __tablename__ = "members"
+
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String)
+    last_name = Column(String)
+    github_url = Column(String, nullable=True)
+    photo_url = Column(String, nullable=True)
+    projects_ids = Column(String, default=" ")
+
+
+
+
 class ProjectModel(Base):
     __tablename__ = "projects"
 
