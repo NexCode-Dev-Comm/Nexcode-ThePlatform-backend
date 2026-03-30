@@ -1,7 +1,15 @@
-from sqlalchemy import Column, Integer, String, Text 
+from sqlalchemy import Column, Integer, String, Text, Table, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 
 
+contributions = Table(
+    "contributions",
+    Base.metadata,
+    Column("member_id", Integer, ForeignKey("members.id"), primary_key=True),
+    Column("project_id", Integer, ForeignKey("projects.id"), primary_key=True),
+    Column("role_name", String, default="CONTRIBUTOR")
+)
 
 
 class MemberModel(Base):
@@ -12,8 +20,15 @@ class MemberModel(Base):
     last_name = Column(String)
     github_url = Column(String, nullable=True)
     photo_url = Column(String, nullable=True)
-    projects_ids = Column(String, default=" ")
+    global_role = Column(String, default="CONTRIBUTOR")
 
+
+
+    projects = relationship(
+        "ProjectModel",
+        secondary=contributions,
+        back_populates="members"
+    )
 
 
 
@@ -24,10 +39,19 @@ class ProjectModel(Base):
     title = Column(String)
     description = Column(String)
     code_name = Column(String)    
-    code_content = Column(Text) 
+    code_content = Column(Text)
+    tech_stack = Column(String)
     
     contributors_count = Column(Integer, default=0)
     image_url = Column(String, nullable=True)
+
+
+    members = relationship(
+        "MemberModel",
+        secondary=contributions,
+        back_populates="projects"
+    )
+
 
 
 

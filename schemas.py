@@ -8,7 +8,6 @@ class MemberBase(BaseModel):
     last_name: str
     photo_url: Optional[str] = None
     github_url: Optional[str] = None
-    projects: List[int] = []
 
 
 class MemberCreate(MemberBase):
@@ -22,6 +21,11 @@ class Member(MemberBase):
         from_attributes = True
 
 
+class MemberProfile(BaseModel):
+    name: str
+    github_url: Optional[str] = None
+    photo_url: Optional[str] = None
+    portfolio: List[dict]
 
 
 # projects
@@ -40,4 +44,21 @@ class Project(ProjectCreate):
 
     class Config:
         from_attributes = True
+
+
+
+# contributions
+class ContributionInfo(BaseModel):
+    member_id: int
+    project_id: int
+    role_name: str  
+
+
+class ProjectDetail(Project):
+    contributors: List[ContributionInfo]
+
+    class Config:
+        from_attributes = True
+
+
 
